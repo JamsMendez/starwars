@@ -19,6 +19,7 @@ var FilmType = graphql.NewObject(
 			util.KeyFieldDirector:    &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldProducer:    &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldReleaseDate: &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
+			util.KeyFieldImage:       &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 		},
 	},
 )

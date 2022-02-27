@@ -20,6 +20,7 @@ var PeopleType = graphql.NewObject(
 			util.KeyFieldEyeColor:  &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldBirthYear: &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldGender:    &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
+			util.KeyFieldImage:     &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 
 			util.KeyFieldHomeworld: QueryHomeworld(),
 			util.KeyFieldFilms:     QueryFilms(),

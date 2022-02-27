@@ -2,9 +2,12 @@ package resolvers
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"sort"
+	"sync"
 
 	"github.com/JamsMendez/starwars/api"
 	"github.com/JamsMendez/starwars/models"
@@ -30,42 +33,62 @@ func GetVehicleFind() graphql.FieldResolveFn {
 			}
 		}
 
-		for _, s := range urls {
-			rUrl, err := url.Parse(s)
-			if err == nil {
+		var wg sync.WaitGroup
+		size := len(urls)
+		if size > 0 {
+			wg.Add(size)
 
-				response, err := http.Get(rUrl.String())
-				if err == nil {
-
-					defer response.Body.Close()
-					buffer, err := ioutil.ReadAll(response.Body)
+			for _, s := range urls {
+				go func(s string, wg *sync.WaitGroup) {
+					rUrl, err := url.Parse(s)
 					if err == nil {
 
-						vehicleJSON := models.Vehicle{}
-						err = json.Unmarshal(buffer, &vehicleJSON)
+						response, err := http.Get(rUrl.String())
 						if err == nil {
 
-							vehicle := api.Vehicle{
-								URL:                  vehicleJSON.URL,
-								Name:                 vehicleJSON.Name,
-								Model:                vehicleJSON.Model,
-								Manufacture:          vehicleJSON.Manufacture,
-								CostInCredits:        vehicleJSON.CostInCredits,
-								Length:               vehicleJSON.Length,
-								MaxAtmospheringSpeed: vehicleJSON.URL,
-								Crew:                 vehicleJSON.Crew,
-								Passenger:            vehicleJSON.Passenger,
-								CargoCapacity:        vehicleJSON.CargoCapacity,
-								Consumables:          vehicleJSON.Consumables,
-								VehicleClass:         vehicleJSON.VehicleClass,
-							}
+							defer response.Body.Close()
+							buffer, err := ioutil.ReadAll(response.Body)
+							if err == nil {
 
-							vehicles = append(vehicles, vehicle)
+								vehicleJSON := models.Vehicle{}
+								err = json.Unmarshal(buffer, &vehicleJSON)
+								if err == nil {
+
+									vehicle := api.Vehicle{
+										ID:                   util.ParseURLToID(vehicleJSON.URL),
+										URL:                  vehicleJSON.URL,
+										Name:                 vehicleJSON.Name,
+										Model:                vehicleJSON.Model,
+										Manufacture:          vehicleJSON.Manufacture,
+										CostInCredits:        vehicleJSON.CostInCredits,
+										Length:               vehicleJSON.Length,
+										MaxAtmospheringSpeed: vehicleJSON.URL,
+										Crew:                 vehicleJSON.Crew,
+										Passenger:            vehicleJSON.Passenger,
+										CargoCapacity:        vehicleJSON.CargoCapacity,
+										Consumables:          vehicleJSON.Consumables,
+										VehicleClass:         vehicleJSON.VehicleClass,
+									}
+
+                  vehicle.Image = fmt.Sprintf("https://starwars-visualguide.com/assets/img/vehicles/%d.jpg", vehicle.ID)
+
+									vehicles  = append(vehicles, vehicle)
+								}
+							}
 						}
 					}
-				}
+
+					wg.Done()
+
+				}(s, &wg)
 			}
 		}
+
+		wg.Wait()
+
+		sort.Slice(vehicles, func(i, j int) bool {
+			return vehicles[i].ID < vehicles[j].ID
+		})
 
 		return vehicles, nil
 	}

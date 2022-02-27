@@ -2,9 +2,11 @@ package resolvers
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"sort"
 	"sync"
 
 	"github.com/JamsMendez/starwars/api"
@@ -53,6 +55,7 @@ func GetFilmFind() graphql.FieldResolveFn {
 								if err == nil {
 
 									film := api.Film{
+										ID:           util.ParseURLToID(filmJSON.URL),
 										URL:          filmJSON.URL,
 										EpisodeID:    filmJSON.EpisodeID,
 										Title:        filmJSON.Title,
@@ -61,6 +64,8 @@ func GetFilmFind() graphql.FieldResolveFn {
 										Producer:     filmJSON.Producer,
 										ReleaseDate:  filmJSON.ReleaseDate,
 									}
+
+									film.Image = fmt.Sprintf("https://starwars-visualguide.com/assets/img/films/%d.jpg", film.ID)
 
 									films = append(films, film)
 								}
@@ -75,6 +80,10 @@ func GetFilmFind() graphql.FieldResolveFn {
 		}
 
 		wg.Wait()
+
+		sort.Slice(films, func(i, j int) bool {
+			return films[i].ID < films[j].ID
+		})
 
 		return films, nil
 	}

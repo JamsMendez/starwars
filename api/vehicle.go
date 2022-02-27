@@ -14,4 +14,5 @@ type Vehicle struct {
 	CargoCapacity        string `json:"cargoCapacity"`
 	Consumables          string `json:"consumables"`
 	VehicleClass         string `json:"vehicleClass"`
+	Image                string `json:"image"`
 }

@@ -12,4 +12,5 @@ type Homeworld struct {
 	Terrain        string `json:"terrain"`
 	SurfaceWater   string `json:"surfaceWater"`
 	Population     string `json:"population"`
+	Image          string `json:"image"`
 }

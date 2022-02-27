@@ -26,6 +26,7 @@ var StarshipType = graphql.NewObject(
 			util.KeyFieldHyperdriveRating:     &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldMGLT:                 &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldStarshipClass:        &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
+			util.KeyFieldImage:                &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 		},
 	},
 )

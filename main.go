@@ -28,9 +28,9 @@ func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
 		log.Fatal("$PORT must be set")
+    //port = "3000"
 	}
 
-	//if err := server.Start(fmt.Sprintf(":%s", "3000")); err != nil {
 	if err := server.Start(fmt.Sprintf(":%s", port)); err != nil {
 		fmt.Println("ServerHTTP.ERROR: ", err)
 	}

@@ -16,4 +16,5 @@ type Starship struct {
 	HyperdriveRating     string `json:"HyperdriveRating"`
 	MGLT                 string `json:"mglt"`
 	StarshipClass        string `json:"StarshipClass"`
+	Image        string `json:"image"`
 }

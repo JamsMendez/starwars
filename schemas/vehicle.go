@@ -24,6 +24,7 @@ var VehicleType = graphql.NewObject(
 			util.KeyFieldCargoCapacity:        &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldConsumables:          &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldVehicleClass:         &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
+			util.KeyFieldImage:                &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 		},
 	},
 )

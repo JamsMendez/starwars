@@ -22,6 +22,7 @@ var HomeworldType = graphql.NewObject(
 			util.KeyFieldTerrain:        &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldSurfaceWater:   &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldPopulation:     &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
+			util.KeyFieldImage:          &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 		},
 	},
 )

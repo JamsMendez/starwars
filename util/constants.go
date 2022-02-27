@@ -44,6 +44,7 @@ const (
 	KeyFieldFilms                = "films"
 	KeyFieldVehicles             = "vehicles"
 	KeyFieldStarships            = "starships"
+	KeyFieldImage                = "image"
 	KeyFieldPage                 = "page"
 	KeyFieldNext                 = "next"
 	KeyFieldPrevious             = "previous"

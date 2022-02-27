@@ -9,4 +9,5 @@ type Film struct {
 	Director     string `json:"director"`
 	Producer     string `json:"producer"`
 	ReleaseDate  string `json:"releaseDate"`
+	Image        string `json:"image"`
 }

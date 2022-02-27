@@ -65,6 +65,7 @@ func GetPeopleFind() graphql.FieldResolveFn {
 
 		for _, peopleJSON := range peoplesJSON {
 			people := api.People{
+        ID:        util.ParseURLToID(peopleJSON.URL),
 				URL:       peopleJSON.URL,
 				Name:      peopleJSON.Name,
 				Height:    peopleJSON.Height,
@@ -80,6 +81,8 @@ func GetPeopleFind() graphql.FieldResolveFn {
 				URLStarships: peopleJSON.Starships,
 				URLHomeworld: peopleJSON.Homeworld,
 			}
+
+      people.Image = fmt.Sprintf("https://starwars-visualguide.com/assets/img/characters/%d.jpg", people.ID)
 
 			results = append(results, people)
 		}

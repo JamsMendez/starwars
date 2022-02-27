@@ -2,9 +2,12 @@ package resolvers
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"sort"
+	"sync"
 
 	"github.com/JamsMendez/starwars/api"
 	"github.com/JamsMendez/starwars/models"
@@ -15,7 +18,7 @@ import (
 // GetStarshipFind ...
 func GetStarshipFind() graphql.FieldResolveFn {
 	return func(params graphql.ResolveParams) (interface{}, error) {
-		var vehicles []api.Starship
+		var starships []api.Starship
 
 		var urls []string
 
@@ -30,45 +33,65 @@ func GetStarshipFind() graphql.FieldResolveFn {
 			}
 		}
 
-		for _, s := range urls {
-			rUrl, err := url.Parse(s)
-			if err == nil {
+		var wg sync.WaitGroup
+		size := len(urls)
+		if size > 0 {
+			wg.Add(size)
 
-				response, err := http.Get(rUrl.String())
-				if err == nil {
-
-					defer response.Body.Close()
-					buffer, err := ioutil.ReadAll(response.Body)
+			for _, s := range urls {
+				go func(s string, wg *sync.WaitGroup) {
+					rUrl, err := url.Parse(s)
 					if err == nil {
 
-						vehicleJSON := models.Starship{}
-						err = json.Unmarshal(buffer, &vehicleJSON)
+						response, err := http.Get(rUrl.String())
 						if err == nil {
 
-							vehicle := api.Starship{
-								URL:                  vehicleJSON.URL,
-								Name:                 vehicleJSON.Name,
-								Model:                vehicleJSON.Model,
-								Manufacture:          vehicleJSON.Manufacture,
-								CostInCredits:        vehicleJSON.CostInCredits,
-								Length:               vehicleJSON.Length,
-								MaxAtmospheringSpeed: vehicleJSON.URL,
-								Crew:                 vehicleJSON.Crew,
-								Passenger:            vehicleJSON.Passenger,
-								CargoCapacity:        vehicleJSON.CargoCapacity,
-								Consumables:          vehicleJSON.Consumables,
-								HyperdriveRating:     vehicleJSON.HyperdriveRating,
-								MGLT:                 vehicleJSON.MGLT,
-								StarshipClass:        vehicleJSON.StarshipClass,
-							}
+							defer response.Body.Close()
+							buffer, err := ioutil.ReadAll(response.Body)
+							if err == nil {
 
-							vehicles = append(vehicles, vehicle)
+								starshipJSON := models.Starship{}
+								err = json.Unmarshal(buffer, &starshipJSON)
+								if err == nil {
+
+									starship := api.Starship{
+										ID:                   util.ParseURLToID(starshipJSON.URL),
+										URL:                  starshipJSON.URL,
+										Name:                 starshipJSON.Name,
+										Model:                starshipJSON.Model,
+										Manufacture:          starshipJSON.Manufacture,
+										CostInCredits:        starshipJSON.CostInCredits,
+										Length:               starshipJSON.Length,
+										MaxAtmospheringSpeed: starshipJSON.URL,
+										Crew:                 starshipJSON.Crew,
+										Passenger:            starshipJSON.Passenger,
+										CargoCapacity:        starshipJSON.CargoCapacity,
+										Consumables:          starshipJSON.Consumables,
+										HyperdriveRating:     starshipJSON.HyperdriveRating,
+										MGLT:                 starshipJSON.MGLT,
+										StarshipClass:        starshipJSON.StarshipClass,
+									}
+
+                  starship.Image = fmt.Sprintf("https://starwars-visualguide.com/assets/img/starships/%d.jpg", starship.ID)
+
+									starships = append(starships, starship)
+								}
+							}
 						}
 					}
-				}
+
+					wg.Done()
+
+				}(s, &wg)
 			}
 		}
 
-		return vehicles, nil
+		wg.Wait()
+
+		sort.Slice(starships, func(i, j int) bool {
+			return starships[i].ID < starships[j].ID
+		})
+
+		return starships, nil
 	}
 }
