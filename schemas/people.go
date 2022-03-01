@@ -16,6 +16,7 @@ var PeopleType = graphql.NewObject(
 			util.KeyFieldName:      &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldHeight:    &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldMass:      &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
+			util.KeyFieldHairColor: &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldSkinColor: &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldEyeColor:  &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 			util.KeyFieldBirthYear: &graphql.Field{Type: graphql.NewNonNull(graphql.String)},

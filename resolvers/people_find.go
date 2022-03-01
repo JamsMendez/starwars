@@ -21,11 +21,20 @@ func GetPeopleFind() graphql.FieldResolveFn {
 		var peoples api.Peoples
 
 		var page uint64
+		var search string 
 
 		if value, isOk := params.Args[util.KeyFieldPage]; isOk {
 			if valueInt, isOk := value.(int); isOk {
 				if isOk {
 					page = uint64(valueInt)
+				}
+			}
+		}
+
+		if value, isOk := params.Args[util.KeyFieldSearch]; isOk {
+			if valueString, isOk := value.(string); isOk {
+				if isOk {
+          search = valueString
 				}
 			}
 		}
@@ -41,6 +50,12 @@ func GetPeopleFind() graphql.FieldResolveFn {
       q.Set(util.KeyFieldPage, fmt.Sprintf("%d", page))
       rUrl.RawQuery = q.Encode()
 		}
+
+    if search != "" {
+      q := rUrl.Query()
+      q.Set(util.KeyFieldSearch, fmt.Sprintf("%s", search))
+      rUrl.RawQuery = q.Encode()
+    }
 
 		response, err := http.Get(rUrl.String())
 		if err != nil {

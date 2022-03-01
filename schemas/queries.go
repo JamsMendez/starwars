@@ -36,6 +36,9 @@ func QueryPeoples() *graphql.Field {
 			util.KeyFieldPage: &graphql.ArgumentConfig{
 				Type: graphql.Int,
 			},
+			util.KeyFieldSearch: &graphql.ArgumentConfig{
+				Type: graphql.String,
+			},
 		},
 		Resolve: resolvers.GetPeopleFind(),
 	}

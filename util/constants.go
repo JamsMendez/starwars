@@ -46,6 +46,7 @@ const (
 	KeyFieldStarships            = "starships"
 	KeyFieldImage                = "image"
 	KeyFieldPage                 = "page"
+	KeyFieldSearch               = "search"
 	KeyFieldNext                 = "next"
 	KeyFieldPrevious             = "previous"
 	KeyFieldResults              = "results"
