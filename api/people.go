@@ -17,15 +17,17 @@ type People struct {
 	Films     []Film     `json:"films"`
 	Vehicles  []Vehicle  `json:"vehicles"`
 	Starships []Starship `json:"starships"`
+	Species   []Specie   `json:"species"`
 
 	URLHomeworld string   `json:"-"`
 	URLFilms     []string `json:"-"`
 	URLVehicles  []string `json:"-"`
 	URLStarships []string `json:"-"`
+	URLSpecies   []string `json:"-"`
 }
 
 type Peoples struct {
 	Results  []People `json:"results"`
-	Next     *uint64   `json:"next"`
-	Previous *uint64   `json:"previous"`
+	Next     *uint64  `json:"next"`
+	Previous *uint64  `json:"previous"`
 }

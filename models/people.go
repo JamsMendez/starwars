@@ -16,4 +16,5 @@ type People struct {
 	Films     []string `json:"films"`
 	Vehicles  []string `json:"vehicles"`
 	Starships []string `json:"starships"`
+	Species   []string `json:"species"`
 }

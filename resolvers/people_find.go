@@ -21,7 +21,7 @@ func GetPeopleFind() graphql.FieldResolveFn {
 		var peoples api.Peoples
 
 		var page uint64
-		var search string 
+		var search string
 
 		if value, isOk := params.Args[util.KeyFieldPage]; isOk {
 			if valueInt, isOk := value.(int); isOk {
@@ -34,7 +34,7 @@ func GetPeopleFind() graphql.FieldResolveFn {
 		if value, isOk := params.Args[util.KeyFieldSearch]; isOk {
 			if valueString, isOk := value.(string); isOk {
 				if isOk {
-          search = valueString
+					search = valueString
 				}
 			}
 		}
@@ -46,16 +46,16 @@ func GetPeopleFind() graphql.FieldResolveFn {
 		}
 
 		if page > 0 {
-      q := rUrl.Query()
-      q.Set(util.KeyFieldPage, fmt.Sprintf("%d", page))
-      rUrl.RawQuery = q.Encode()
+			q := rUrl.Query()
+			q.Set(util.KeyFieldPage, fmt.Sprintf("%d", page))
+			rUrl.RawQuery = q.Encode()
 		}
 
-    if search != "" {
-      q := rUrl.Query()
-      q.Set(util.KeyFieldSearch, fmt.Sprintf("%s", search))
-      rUrl.RawQuery = q.Encode()
-    }
+		if search != "" {
+			q := rUrl.Query()
+			q.Set(util.KeyFieldSearch, fmt.Sprintf("%s", search))
+			rUrl.RawQuery = q.Encode()
+		}
 
 		response, err := http.Get(rUrl.String())
 		if err != nil {
@@ -80,7 +80,7 @@ func GetPeopleFind() graphql.FieldResolveFn {
 
 		for _, peopleJSON := range peoplesJSON {
 			people := api.People{
-        ID:        util.ParseURLToID(peopleJSON.URL),
+				ID:        util.ParseURLToID(peopleJSON.URL),
 				URL:       peopleJSON.URL,
 				Name:      peopleJSON.Name,
 				Height:    peopleJSON.Height,
@@ -94,10 +94,11 @@ func GetPeopleFind() graphql.FieldResolveFn {
 				URLFilms:     peopleJSON.Films,
 				URLVehicles:  peopleJSON.Vehicles,
 				URLStarships: peopleJSON.Starships,
+				URLSpecies:   peopleJSON.Species,
 				URLHomeworld: peopleJSON.Homeworld,
 			}
 
-      people.Image = fmt.Sprintf("https://starwars-visualguide.com/assets/img/characters/%d.jpg", people.ID)
+			people.Image = fmt.Sprintf("https://starwars-visualguide.com/assets/img/characters/%d.jpg", people.ID)
 
 			results = append(results, people)
 		}
@@ -112,12 +113,12 @@ func GetPeopleFind() graphql.FieldResolveFn {
 				if value != "" {
 					nextInt, err := strconv.Atoi(value)
 					if err == nil {
-            uNextInt := uint64(nextInt)
+						uNextInt := uint64(nextInt)
 						peoples.Next = &uNextInt
 					}
 				}
 			}
-    }
+		}
 
 		if responseJSON.Previous != "" {
 			nextUrl, err := url.Parse(responseJSON.Previous)
@@ -127,7 +128,7 @@ func GetPeopleFind() graphql.FieldResolveFn {
 				if value != "" {
 					previousInt, err := strconv.Atoi(value)
 					if err == nil {
-            uPreviousInt := uint64(previousInt)
+						uPreviousInt := uint64(previousInt)
 						peoples.Previous = &uPreviousInt
 					}
 				}

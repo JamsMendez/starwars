@@ -8,4 +8,5 @@ const (
 	ApiHomeworld = "/api/homeworld/"
 	ApiStarship  = "/api/starship/"
 	ApiVehicle   = "/api/vehicle/"
+	ApiSpecie    = "/api/specie/"
 )

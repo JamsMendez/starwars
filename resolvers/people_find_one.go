@@ -67,10 +67,11 @@ func GetPeopleFindOne() graphql.FieldResolveFn {
 			URLFilms:     peopleJSON.Films,
 			URLVehicles:  peopleJSON.Vehicles,
 			URLStarships: peopleJSON.Starships,
+			URLSpecies:   peopleJSON.Species,
 			URLHomeworld: peopleJSON.Homeworld,
 		}
 
-    people.Image = fmt.Sprintf("https://starwars-visualguide.com/assets/img/characters/%d.jpg", people.ID)
+		people.Image = fmt.Sprintf("https://starwars-visualguide.com/assets/img/characters/%d.jpg", people.ID)
 
 		return people, nil
 	}

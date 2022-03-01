@@ -67,3 +67,19 @@ func QueryStarships() *graphql.Field {
 		Resolve: resolvers.GetStarshipFind(),
 	}
 }
+
+// QuerySpecies...
+func QuerySpecies() *graphql.Field {
+	return &graphql.Field{
+		Type:    graphql.NewList(SpecieType),
+		Resolve: resolvers.GetSpecieFind(),
+	}
+}
+
+// QuerySpecie...
+func QuerySpecie() *graphql.Field {
+	return &graphql.Field{
+		Type:    SpecieType,
+		Resolve: resolvers.GetSpecieFindOne(),
+	}
+}

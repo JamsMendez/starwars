@@ -27,6 +27,8 @@ var PeopleType = graphql.NewObject(
 			util.KeyFieldFilms:     QueryFilms(),
 			util.KeyFieldVehicles:  QueryVehicles(),
 			util.KeyFieldStarships: QueryStarships(),
+			util.KeyFieldSpecies:   QuerySpecies(),
+			util.KeyFieldSpecie:   QuerySpecie(),
 		},
 	},
 )
