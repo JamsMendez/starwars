@@ -112,11 +112,12 @@ func GetPeopleFind() graphql.FieldResolveFn {
 				if value != "" {
 					nextInt, err := strconv.Atoi(value)
 					if err == nil {
-						peoples.Next = uint64(nextInt)
+            uNextInt := uint64(nextInt)
+						peoples.Next = &uNextInt
 					}
 				}
 			}
-		}
+    }
 
 		if responseJSON.Previous != "" {
 			nextUrl, err := url.Parse(responseJSON.Previous)
@@ -126,7 +127,8 @@ func GetPeopleFind() graphql.FieldResolveFn {
 				if value != "" {
 					previousInt, err := strconv.Atoi(value)
 					if err == nil {
-						peoples.Previous = uint64(previousInt)
+            uPreviousInt := uint64(previousInt)
+						peoples.Previous = &uPreviousInt
 					}
 				}
 			}

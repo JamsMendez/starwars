@@ -26,6 +26,6 @@ type People struct {
 
 type Peoples struct {
 	Results  []People `json:"results"`
-	Next     uint64   `json:"next"`
-	Previous uint64   `json:"previous"`
+	Next     *uint64   `json:"next"`
+	Previous *uint64   `json:"previous"`
 }

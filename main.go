@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"log"
+	//"log"
 	"os"
 
 	"github.com/labstack/echo/v4"
@@ -25,10 +25,11 @@ func main() {
 	rsDev.New()
 	rs.New()
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		log.Fatal("$PORT must be set")
-	}
+	 port := os.Getenv("PORT")
+	 if port == "" {
+	 	//log.Fatal("$PORT must be set")
+    port = "3000"
+	 }
 
 	if err := server.Start(fmt.Sprintf(":%s", port)); err != nil {
 		fmt.Println("ServerHTTP.ERROR: ", err)
