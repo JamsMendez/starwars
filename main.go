@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	//"log"
+	"log"
 	"os"
 
 	"github.com/labstack/echo/v4"
@@ -27,8 +27,8 @@ func main() {
 
 	 port := os.Getenv("PORT")
 	 if port == "" {
-	 	//log.Fatal("$PORT must be set")
-    port = "3000"
+	 	log.Fatal("$PORT must be set")
+    //port = "3000"
 	 }
 
 	if err := server.Start(fmt.Sprintf(":%s", port)); err != nil {
